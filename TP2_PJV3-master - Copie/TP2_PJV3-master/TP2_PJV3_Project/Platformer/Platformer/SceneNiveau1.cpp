@@ -1,5 +1,12 @@
 #include "SceneNiveau1.h"
 
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
 using namespace platformer;
 
 SceneNiveau1::SceneNiveau1()
@@ -9,6 +16,8 @@ SceneNiveau1::SceneNiveau1()
 		{
 			grilleDeTuiles[x][y] = nullptr;
 		}
+	view = View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+	view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 SceneNiveau1::~SceneNiveau1()
@@ -37,6 +46,7 @@ Scene::scenes SceneNiveau1::run()
 
 bool SceneNiveau1::init(RenderWindow * const window)
 {
+	// Chargement des sprites pour les tuiles
 	for (int i = 0; i < TUILES_ROUGES; i++)
 	{
 		if (!tuilesRougesT[i].loadFromFile("Ressources\\Tiles\\BlockA" + std::to_string(i) + ".png"))
@@ -45,6 +55,19 @@ bool SceneNiveau1::init(RenderWindow * const window)
 		}
 	}
 
+	// Chargement des sprites pour les plateformes
+	if (!plateformeT.loadFromFile("Ressources\\Tiles\\Platform.png"))
+	{
+		return false;
+	}
+
+	// Chargement des sprites pour la sortie
+	if (!exitT.loadFromFile("Ressources\\Tiles\\Exit.png"))
+	{
+		return false;
+	}
+
+	// Chargement de l'arrière plan
 	for (int i = 0; i < BACKGROUNDS; i++)
 	{
 		if (!backgroundT[i].loadFromFile("Ressources\\Backgrounds\\Layer" + std::to_string(i) + "_1.png"))
@@ -53,29 +76,102 @@ bool SceneNiveau1::init(RenderWindow * const window)
 		}
 	}
 
+	// Chargement de la nourriture
+	for (int i = 0; i < FOODS; ++i)
+	{
+		if (!foodT[i].loadFromFile("Ressources\\Sprites\\Food\\food" + std::to_string(i) + ".png"))
+		{
+			return false;
+		}
+	}
+
+	// Chargement du joueur
 	joueur = new Joueur(idle);
-	if (!joueur->init(0, window->getSize().x, "Ressources\\Sprites\\Player\\Player.png"))
+	if (!joueur->init(TAILLE_TUILES_X, WORLD_WIDTH-TAILLE_TUILES_X, "Ressources\\Sprites\\Player\\player_30x35.png"))
 	{
 		return false;
 	}
-	
-	
+
+	// Chargement des ennemis
+	for (int i = 0; i < ENNEMIES; i++)
+	{
+		if (!ennemiesT[i].loadFromFile("Ressources\\Sprites\\Monster" + std::to_string(i) + "\\Monster"+ std::to_string(i) + ".png"))
+		{
+			return false;
+		}
+	}
+
+	// Mise en place de l'arrière plan
 	for (int i = 0; i < BACKGROUNDS; i++)
 	{
 		background[i].setTexture(backgroundT[i]);
 	}
-	
-	srand(time(NULL));
 
-	for (int x = 0; x < NOMBRE_TUILES_X; x++)
+	for (int i = 0; i < 5; i++) // Création de plusieurs background
 	{
-		//Choix du bloc au hasard
-		grilleDeTuiles[x][NOMBRE_TUILES_Y - 1] = new Sprite(tuilesRougesT[rand() % TUILES_ROUGES]);
-		grilleDeTuiles[x][NOMBRE_TUILES_Y - 1]->setPosition(x * TAILLE_TUILES_X, TAILLE_TUILES_Y * (NOMBRE_TUILES_Y - 1));
+		backgroundPositions[i].x = i * SCREEN_WIDTH;
+		backgroundPositions[i].y = 0;
 	}
 
-	//Position arbitraire pour le joueur en x, pas arbitraire en y (sur le plancher)
-	joueur->setPosition(100, window->getSize().y - TAILLE_TUILES_Y * 2);
+
+	srand(time(NULL));
+	// On charge un niveau à partir d'un fichier .txt
+	{
+		ifstream readLevel("Ressources\\Level\\niveau_DinoRush.txt"); // Lecture d'un niveau par fichier texte
+		string currentLine; // Ligne courante
+		int levelLine = 0; // Indique à quel niveau du tableau on est rendu.
+		while (getline(readLevel, currentLine)) 
+		{
+			if ((int)currentLine.at(0) != 35)
+			{
+				for (int i = 0; i < currentLine.length(); ++i)
+				{
+					int currentNumber = (int)currentLine.at(i);
+					switch (currentNumber)
+					{
+					case 49: // Joueur
+						grilleDeTuiles[i][levelLine] = nullptr;
+						joueur->setPosition((i * TAILLE_TUILES_X), (levelLine * TAILLE_TUILES_Y)+35/2); // 35 == hauteur de la sprite. /2 car origine au milieu
+						break;
+					case 50: // Sol
+						grilleDeTuiles[i][levelLine] = new Sprite(tuilesRougesT[rand() % TUILES_ROUGES]);
+						grilleDeTuiles[i][levelLine]->setPosition(i * TAILLE_TUILES_X, levelLine* TAILLE_TUILES_Y);
+						break;
+					case 51: // Plateforme
+						grilleDeTuiles[i][levelLine] = new Sprite(plateformeT);
+						grilleDeTuiles[i][levelLine]->setPosition(i * TAILLE_TUILES_X, levelLine* TAILLE_TUILES_Y);
+						break;
+					case 52: // Ennemi 1
+						grilleDeTuiles[i][levelLine] = nullptr;
+						grilleDeTuiles[i][levelLine] = new Sprite(ennemiesT[0]);
+						grilleDeTuiles[i][levelLine]->setPosition(i * TAILLE_TUILES_X, (levelLine + 1)* TAILLE_TUILES_Y - ENNEMY_0_HEIGHT);
+						break;
+					case 53: // Ennemi 2
+						grilleDeTuiles[i][levelLine] = nullptr;
+						grilleDeTuiles[i][levelLine] = new Sprite(ennemiesT[1]);
+						grilleDeTuiles[i][levelLine]->setPosition(i * TAILLE_TUILES_X, (levelLine + 1)* TAILLE_TUILES_Y - ENNEMY_1_HEIGHT);
+						break;
+					case 54: // Ennemi 3
+						grilleDeTuiles[i][levelLine] = nullptr;
+						grilleDeTuiles[i][levelLine] = new Sprite(ennemiesT[2]);
+						grilleDeTuiles[i][levelLine]->setPosition(i * TAILLE_TUILES_X, (levelLine + 1)* TAILLE_TUILES_Y - ENNEMY_2_HEIGHT);
+						break;
+					case 55: // Bouffe
+						grilleDeTuiles[i][levelLine] = new Sprite(foodT[rand() % FOODS]);
+						grilleDeTuiles[i][levelLine] ->setPosition((i * TAILLE_TUILES_X), ((levelLine+1) * TAILLE_TUILES_Y)-FOODS_SIZE_Y);
+						break;
+					case 56: // Sortie
+						grilleDeTuiles[i][levelLine] = new Sprite(exitT);
+						grilleDeTuiles[i][levelLine]->setPosition(i * TAILLE_TUILES_X, levelLine* TAILLE_TUILES_Y);
+						break;
+					default:
+						break;
+					}
+				}
+				levelLine++;
+			}
+		}
+	}
 
 	this->mainWin = window;
 	isRunning = true;
@@ -100,6 +196,9 @@ void SceneNiveau1::getInputs()
 		{
 			if (event.key.code == sf::Keyboard::Escape)
 			{
+				view.move(-10000, 0); // On remet la vue au début
+				adjustView();
+				mainWin->setView(view);
 				isRunning = false;
 				transitionVersScene = Scene::scenes::TITRE;
 			}
@@ -132,7 +231,7 @@ void SceneNiveau1::update()
 	{
 		for (int j = 0; j < NOMBRE_TUILES_Y; ++j)
 		{
-			if (grilleDeTuiles[i][j] != NULL)
+			if (grilleDeTuiles[i][j] != nullptr)
 			{
 				joueur->IsColliding(grilleDeTuiles[i][j]->getGlobalBounds());
 			}
@@ -141,10 +240,16 @@ void SceneNiveau1::update()
 	if (interfaceCommande == 1)
 	{
 		joueur->move(-1, 0);
+		if (joueur->getPosition().x <= view.getCenter().x)
+		view.move(-3,0);
+		adjustView();
 	}
 	else if(interfaceCommande == 2)
 	{
 		joueur->move(1, 0);
+		if (joueur->getPosition().x >= view.getCenter().x)
+			view.move(3,0);
+		adjustView();
 	}
 	
 	if (joueur->GetState() == jumping)
@@ -164,12 +269,18 @@ void SceneNiveau1::update()
 void SceneNiveau1::draw()
 {
 	mainWin->clear();
+	mainWin->setView(view);
 
-	for (int i = 0; i < BACKGROUNDS; i++)
+	for (int i = 0; i < 5; i++)
 	{
-		mainWin->draw(background[i]);
-	}
 
+		for (int j = 0; j < BACKGROUNDS; ++j)
+		{
+			background[j].setPosition(backgroundPositions[i]);
+			mainWin->draw(background[j]);
+		}
+
+	}
 	for (int x = 0; x < NOMBRE_TUILES_X; x++)
 		for (int y = 0; y < NOMBRE_TUILES_Y; y++)
 		{
@@ -178,8 +289,20 @@ void SceneNiveau1::draw()
 				mainWin->draw(*grilleDeTuiles[x][y]);
 			}
 		}
-	
+
 	mainWin->draw(*joueur);
 	mainWin->display();
+}
+
+void SceneNiveau1::adjustView()
+{
+	if (view.getCenter().x < MIN_VIEW_X)
+	{
+		view.setCenter(MIN_VIEW_X, view.getCenter().y);
+	}
+	else if (view.getCenter().x > MAX_VIEW_X)
+	{
+		view.setCenter(MAX_VIEW_X, view.getCenter().y);
+	}
 }
 

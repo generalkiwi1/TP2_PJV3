@@ -34,7 +34,8 @@ namespace platformer
 		bool init(const int limiteGauche, const int limiteDroite, const String texturePath);
 
 	private:
-		static const int TAILLE_RECT = 64;
+		static const int SIZE_RECT_X = 30;
+		static const int SIZE_RECT_Y = 35;
 
 		Texture texture;
 

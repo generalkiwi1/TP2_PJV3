@@ -15,14 +15,21 @@ namespace platformer
 		Game();
 		int run();
 		int testTest();
+		View view;
 
 	private:
-		const int LARGEUR = 800;
-		const int HAUTEUR = 480;
+		// Constantes du monde
+		const int SCREEN_WIDTH = 800;
+		const int SCREEN_HEIGHT = 480;
+
+		const int WORLD_WIDTH = 4000;
+		const int WORLD_HEIGHT = 480;
+
 
 		bool init();
 
 		RenderWindow mainWin;
 		Event event;
+
 	};
 }
