@@ -89,22 +89,28 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controleur.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Joueur.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Modele.cpp" />
     <ClCompile Include="SceneNiveau1.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
     <ClCompile Include="Testeur.cpp" />
     <ClCompile Include="Textbox.cpp" />
+    <ClCompile Include="Vue.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controleur.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Joueur.h" />
+    <ClInclude Include="Modele.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneNiveau1.h" />
     <ClInclude Include="SceneTitre.h" />
     <ClInclude Include="Testeur.h" />
     <ClInclude Include="Textbox.h" />
+    <ClInclude Include="Vue.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Ressources\Backgrounds\Layer0_0.png" />
