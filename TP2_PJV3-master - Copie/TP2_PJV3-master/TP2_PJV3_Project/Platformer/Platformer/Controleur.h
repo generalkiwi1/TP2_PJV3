@@ -3,6 +3,7 @@
 #include "Modele.h"
 
 using std::string;
+using namespace platformer;
 
 namespace MVC
 {
@@ -12,17 +13,28 @@ namespace MVC
 		static Controleur *getInstance();
 		static void release();
 
-		//Pour le contrôleur, on utilise souvent requete (request)
-		//et le nom de la méthode qu'on veut utiliser du côté du modèle.
-		string requetePolitesse(const string& salutationRecue, int& pointsPolitesse);
-		string requeteCalcul(string num1, string num2, string option);
+		int changeCurrentScene(const int nextScene);
+		bool getErrorCreate();
+		bool getErrorLogin();
+		void confirmCreateData(const string pseudo, const string password, const string nom, const string prenom, const string courriel);
+		bool confirmLoginData(const string pseudo, const string password);
 
 	private:
 		Controleur();
 		static Controleur *instance;
+		Scene::scenes lastScene = Scene::MENU;
+		Scene::scenes currentScene = Scene::MENU;
+		bool errorCreate = false;
+		bool errorLogin = false;
 
 		Controleur(const Controleur&);
 		void operator=(const Controleur&);
+
+		bool pseudoExiste(const string pseudo);
+		bool correctPassword(const string password);
+		bool correctNom(const string nom);
+		bool correctPrenom(const string prenom);
+		bool correctEmail(const string courriel);
 
 		//Le contrôleur peut instancier les éléments de la couche modèle, puisque c'est le seul qui est sensé y avoir accès.
 		//S'il ne les instancie pas, alors il aura des pointeurs vers les classes

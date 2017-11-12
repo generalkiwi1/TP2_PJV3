@@ -1,49 +1,83 @@
 #include "Modele.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
 
 using namespace MVC;
 
 Modele::Modele()
 {
-	politesses[0] = "Salut!";
-	politesses[1] = "Allo!";
-	politesses[2] = "Bonjour!";
+	
 }
 
-string Modele::salutations(const string& salutationRecue, int& pointsPolitesse)
+Scene::scenes Modele::switchScene(const int nextScene)
 {
-	for (int i = 0; i < 3; i++)
-	{
-		if (salutationRecue == politesses[i])
-		{			
-			pointsPolitesse = rand() % 10 + 1;
-			return "Salutations! Vous êtes quelqu'un de très poli!";
-		}
-	}
 
-	pointsPolitesse = -1;
-	return "ceci n'est pas très convenable!";
+	int nextSceneSwitch = nextScene;
+	switch (nextSceneSwitch)
+		// 0 = MENU
+		// 1 = LOGIN
+		// 2 = MEILLEURS_SCORES
+		// 3 = GESTION 
+		// 4 = CREER
+		// 5 = MODIFIER
+		// 6 = EFFACER
+		// 7 = NIVEAU1
+		// 8 = SORTIE
+	{
+	case 0:
+		currentScene = Scene::MENU;
+		break;
+	case 1:
+		currentScene = Scene::LOGIN;
+		break;
+	case 2:
+		currentScene = Scene::MEILLEURS_SCORES;
+		break;
+	case 3:
+		currentScene = Scene::GESTION;
+		break;
+	case 4:
+		currentScene = Scene::CREER;
+		break;
+	case 5:
+		currentScene = Scene::MODIFIER;
+		break;
+	case 6:
+		currentScene = Scene::EFFACER;
+		break;
+	case 7:
+		currentScene = Scene::NIVEAU1;
+		break;
+	case 8:
+		currentScene = Scene::SORTIE;
+		break;
+	default:
+		break;
+	}
+	return currentScene;
 }
 
-float Modele::calcul(float num1, float num2, char option)
+void Modele::creationCompte(const string pseudo, const string password, const string nom, const string prenom, const string courriel)
 {
-	float somme = 0;
-	switch(option)
 	{
-	case '+':
-		somme = num1 + num2;
-		break;
-	case '-':
-		somme = num1 - num2;
-		break;
-	case '*':
-		somme = num1 * num2;
-		break;
-	case '/':
-		somme = num1 / num2;
-		break;
+		ofstream lectureDeFichierCompte("compte.txt", ios::app); // fichier de comptes
+		string compte = pseudo + " " + password + " " + nom + " " + prenom + " " + courriel; // Création de l'entrée
+		lectureDeFichierCompte << compte << endl; // Implémentation dans le fichier
 	}
-	return somme;
 }
+
+void Modele::sauvegardeJoueur(const string pseudo)
+{
+	joueurCourant = pseudo;
+}
+
+
+
+
+
 
 
 

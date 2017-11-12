@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include "Scene.h"
 
 using std::string;
+using namespace platformer;
 
 namespace MVC
 {
@@ -9,11 +11,12 @@ namespace MVC
 	{
 	public:
 		Modele();
-		string salutations(const string& salutationRecue, int& pointsPolitesse);
-		float calcul(float num1, float num2, char option);
+		Scene::scenes switchScene(const int nextScene);
 
+		void creationCompte(const string pseudo, const string password, const string nom, const string prenom, const string courriel);
+		void sauvegardeJoueur(const string pseudo);
 	private:
-		string politesses[3];
-
+		Scene::scenes currentScene = Scene::MENU; // Scene courante
+		string joueurCourant = "";
 	};
 }

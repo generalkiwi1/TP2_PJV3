@@ -1,6 +1,13 @@
 #include "Game.h"
 #include "SceneTitre.h"
 #include "SceneNiveau1.h"
+#include "SceneMenu.h"
+#include "SceneGestion.h"
+#include "SceneLogin.h"
+#include "SceneMeilleurScore.h"
+#include "SceneCreer.h"
+#include "SceneModifier.h"
+#include "SceneEffacer.h"
 
 using namespace platformer;
 
@@ -23,7 +30,7 @@ int Game::testTest()
 int Game::run()
 {
 	//deux enums et un pointeur de scene pour faire la manipulation de scène
-	Scene::scenes selecteurDeScene = Scene::scenes::TITRE;
+	Scene::scenes selecteurDeScene = Scene::scenes::MENU;
 	Scene::scenes sceneEnRetour;
 	Scene* sceneActive = nullptr; //Pointeur de la super-classe, peut pointer sur n'imprte quelle scène
 
@@ -40,10 +47,27 @@ int Game::run()
 			//être ajoutées ici
 			switch (selecteurDeScene)
 			{
-			case Scene::scenes::TITRE:
-				sceneActive = new SceneTitre();
+			case Scene::scenes::MENU:
+				sceneActive = new SceneMenu();
 				break;
-
+			case Scene::scenes::LOGIN:
+				sceneActive = new SceneLogin();
+				break;
+			case Scene::scenes::MEILLEURS_SCORES:
+				sceneActive = new SceneMeilleurScore();
+				break;
+			case Scene::scenes::GESTION:
+				sceneActive = new SceneGestion();
+				break;
+			case Scene::scenes::CREER:
+				sceneActive = new SceneCreer();
+				break;
+			case Scene::scenes::MODIFIER:
+				sceneActive = new SceneModifier();
+				break;
+			case Scene::scenes::EFFACER:
+				sceneActive = new SceneEffacer();
+				break;
 			case Scene::scenes::NIVEAU1:
 				sceneActive = new SceneNiveau1();
 				break;

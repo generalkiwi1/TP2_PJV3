@@ -190,7 +190,7 @@ void SceneNiveau1::getInputs()
 			//Attention, ici simplement fermer la fenêtre ne mettrait pas nécessairement 
 			//fin à l'application
 			isRunning = false;
-			transitionVersScene = Scene::scenes::SORTIE;
+			transitionVersScene = (scenes)vue.staySameWindow(8); // Sortie du jeu
 		}
 
 		if (event.type == Event::KeyPressed)
@@ -201,7 +201,7 @@ void SceneNiveau1::getInputs()
 				adjustView();
 				mainWin->setView(view);
 				isRunning = false;
-				transitionVersScene = Scene::scenes::TITRE;
+				transitionVersScene = (scenes)vue.staySameWindow(0); // + 1 pour dire qu'il y a une incrémentation de plus, car si c'est égal à 0, on ne change pas de fenêtre.
 			}
 		}
 	}

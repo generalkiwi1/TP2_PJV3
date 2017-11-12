@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Vue.h"
 
 using namespace sf;
+using namespace MVC;
 
 /// <summary>
 /// Classe abstraite avec aucune méthode concrétisée.  Un .h suffit donc.
@@ -13,7 +15,7 @@ namespace platformer
 	{
 	public:
 		//Quand vos ajouterez des scènes, ajouter un enum ici
-		enum scenes {TITRE, NIVEAU1, SORTIE};
+		enum scenes {MENU, LOGIN, MEILLEURS_SCORES,GESTION, CREER, MODIFIER, EFFACER, NIVEAU1, SORTIE};
 
 		virtual ~Scene() {}  //Pour que le destructeur de l'objet en mémoire soit apellé
 		virtual scenes run() = 0;
@@ -27,6 +29,7 @@ namespace platformer
 	protected:
 		RenderWindow *mainWin;
 		Event event;
+		Vue vue;
 		
 		/// <summary>
 		/// À la fin de chaque scène, on indique à Game quelle nouvelle scène elle doit charger.

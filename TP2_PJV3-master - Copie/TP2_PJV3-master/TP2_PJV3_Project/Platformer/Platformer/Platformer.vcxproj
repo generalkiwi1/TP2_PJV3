@@ -94,6 +94,13 @@
     <ClCompile Include="Joueur.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modele.cpp" />
+    <ClCompile Include="SceneCreer.cpp" />
+    <ClCompile Include="SceneEffacer.cpp" />
+    <ClCompile Include="SceneGestion.cpp" />
+    <ClCompile Include="SceneLogin.cpp" />
+    <ClCompile Include="SceneMeilleurScore.cpp" />
+    <ClCompile Include="SceneMenu.cpp" />
+    <ClCompile Include="SceneModifier.cpp" />
     <ClCompile Include="SceneNiveau1.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
     <ClCompile Include="Testeur.cpp" />
@@ -106,7 +113,14 @@
     <ClInclude Include="Joueur.h" />
     <ClInclude Include="Modele.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneCreer.h" />
+    <ClInclude Include="SceneEffacer.h" />
+    <ClInclude Include="SceneGestion.h" />
+    <ClInclude Include="SceneLogin.h" />
+    <ClInclude Include="SceneMeilleurScore.h" />
+    <ClInclude Include="SceneModifier.h" />
     <ClInclude Include="SceneNiveau1.h" />
+    <ClInclude Include="SceneMenu.h" />
     <ClInclude Include="SceneTitre.h" />
     <ClInclude Include="Testeur.h" />
     <ClInclude Include="Textbox.h" />
@@ -165,6 +179,9 @@
     <None Include="Ressources\Sounds\PlayerJump.ogg" />
     <None Include="Ressources\Sounds\PlayerKilled.ogg" />
     <None Include="Ressources\Sounds\Powerup.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="compte.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
