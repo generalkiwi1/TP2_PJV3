@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include "Scene.h"
 #include "Joueur.h"
+#include "MonstreStego.h"
+#include "MonstreRaptor.h"
+#include "MonstreArgentavis.h"
 
 using namespace sf;
 
@@ -47,13 +50,24 @@ namespace platformer
 		static const int ENNEMY_1_HEIGHT = 115;
 		static const int ENNEMY_2_WIDTH = 75;
 		static const int ENNEMY_2_HEIGHT = 85;
-		
-		
+		static const int NB_ENNEMY_MAX = 20;
+		static const int NB_BOUFFE_MAX = 50;
+		static const int NB_MAX_EXIT = 1;
+		static const int WIN_SCORE_VALUE = 1000;
+		static const int FOOB_SCORE_VALUE = 25;
+		static const int TIME_MAX_TO_FINISH = 3600;
+
+		int timer = 0;
+		bool haveWin = false;
+		int score = 0;
+
 		/// <summary>
 		/// Théoriquement la fenêtre pourrait être remplie de tuile de manière exacte (20 X 15 pour être précis, voir plus haut)
 		/// On a donc une grille de pointeurs null, et si un bloc doit être concétisé, alors il ne sera pas null.
 		/// </summary>
 		Sprite* grilleDeTuiles[NOMBRE_TUILES_X][NOMBRE_TUILES_Y];
+		Sprite* grilleCollectibles[NB_BOUFFE_MAX];
+		Sprite* exit;
 
 		/// <summary>
 		/// On a 7 tuiles rouges de base; alors on va toutes les utiliser, pour le moment.
@@ -73,9 +87,8 @@ namespace platformer
 		
 		Texture plateformeT;
 		
-		Texture ennemiesT[ENNEMIES];
-		
 		Joueur * joueur;
+		Ennemie * ennemies[NB_ENNEMY_MAX];
 		int interfaceCommande;
 		View view;
 		
