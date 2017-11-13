@@ -85,3 +85,8 @@ const ActeurType Acteur::GetActeurType()
 {
 	return ACTEUR_TYPE;
 }
+
+void Acteur::setStartDying()
+{
+	state = dying;
+}

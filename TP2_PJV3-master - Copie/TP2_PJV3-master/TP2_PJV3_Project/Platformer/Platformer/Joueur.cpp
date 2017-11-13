@@ -184,7 +184,7 @@ void Joueur::updateAnimation()
 		nbFrameFromBeginAnimation = 0;
 	}
 	++nbFrameFromBeginAnimation; 
-	int animationNumber = 0;
+	animationNumber = 0;
 
 	if (state == idle)
 	{
@@ -228,10 +228,6 @@ void Joueur::updateAnimation()
 	{
 		setTextureRect(intRectsSaut[2]);
 	}
-	else if (state == dead)
-	{
-
-	}
 	else if (state == attacking)
 	{
 		animationNumber = floor(nbFrameFromBeginAnimation / 3);
@@ -269,6 +265,17 @@ void Joueur::updateAnimation()
 			state = idle;
 		}
 	}
+	else if (state == dying)
+	{
+		animationNumber = floor(nbFrameFromBeginAnimation / 12);
+		setTextureRect(intRectsDead[animationNumber]);
+		if (nbFrameFromBeginAnimation >= 11)
+		{
+			setTextureRect(intRectsDead[1]);
+			state = dead;
+		}
+	}
+	
 }
 
 

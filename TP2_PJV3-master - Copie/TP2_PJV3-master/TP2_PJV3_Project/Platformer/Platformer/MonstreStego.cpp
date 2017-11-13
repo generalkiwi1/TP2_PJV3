@@ -3,7 +3,7 @@
 
 using namespace platformer;
 
-MonstreStego::MonstreStego(const int SCORE_VALUE) : Ennemie(SCORE_VALUE, ACTEUR_TYPE)
+MonstreStego::MonstreStego(const int SCORE_VALUE, ActeurType ACTEUR_TYPE) : Ennemie(SCORE_VALUE, ACTEUR_TYPE)
 {
 
 }
@@ -66,7 +66,7 @@ void MonstreStego::UpdateAnimation()
 		nbFrameFromBeginAnimation = 0;
 	}
 	++nbFrameFromBeginAnimation;
-	int animationNumber = 0;
+	animationNumber = 0;
 
 	if (state == walking || state == idle || state == falling)
 	{
@@ -77,9 +77,14 @@ void MonstreStego::UpdateAnimation()
 			nbFrameFromBeginAnimation = 0;
 		}
 	}
-	else if (state == dead)
+	else if (state == dying)
 	{
-
+		animationNumber = floor(nbFrameFromBeginAnimation / 12);
+		setTextureRect(intRectsDead[animationNumber]);
+		if (nbFrameFromBeginAnimation >= 11)
+		{
+			state = dead;
+		}
 	}
 	
 }

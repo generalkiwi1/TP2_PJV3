@@ -48,40 +48,26 @@ void Ennemie::Walk(const int directionX, const int directionY)
 	}
 }
 
-void Ennemie::GotHit()
-{
-
-}
-bool Ennemie::LookForPlayer(FloatRect playerPosition)
-{
-	if (getPosition().y - getOrigin().y < playerPosition.top - playerPosition.height && getPosition().y + getOrigin().y > playerPosition.top)
-	{
-		if (isFacingLeft && getPosition().x - SIGHT_RANGE <= playerPosition.left + playerPosition.width || !isFacingLeft && getPosition().x + SIGHT_RANGE >= playerPosition.left)
-		{
-			isSeeingPlayer = true;
-			return true;
-		}
-	}
-	isSeeingPlayer = false;
-	return false;
-}
 void Ennemie::Update()
 {
-	if (state != jumping)
+	if (state != dying && state != dead)
 	{
-		changeIsFalling();
-	}
-	/*if (state == falling)
-	{
+		if (state != jumping)
+		{
+			changeIsFalling();
+		}
+		/*if (state == falling)
+		{
 		Walk(0, 1);
-	}*/
-	if (direction < 0)
-	{
-		Walk(-1, 0);
-	}
-	else if (direction > 0)
-	{
-		Walk(1, 0);
+		}*/
+		if (direction < 0)
+		{
+			Walk(-1, 0);
+		}
+		else if (direction > 0)
+		{
+			Walk(1, 0);
+		}
 	}
 	UpdateAnimation();
 	
@@ -92,7 +78,7 @@ void Ennemie::UpdateAnimation()
 
 }
 
-const int Ennemie::GetScore()
+const int Ennemie::GetScoreValue()
 {
 	return SCORE_VALUE;
 }
@@ -105,4 +91,9 @@ void Ennemie::FlipSpriteToRigth()
 void Ennemie::FlipSpriteToLeft()
 {
 
+}
+
+const bool Ennemie::GetHaveToAttack() const
+{
+	return haveToAttack;
 }

@@ -3,7 +3,7 @@
 
 using namespace platformer;
 
-MonstreArgentavis::MonstreArgentavis(const int SCORE_VALUE): Ennemie(SCORE_VALUE, ACTEUR_TYPE)
+MonstreArgentavis::MonstreArgentavis(const int SCORE_VALUE, ActeurType ACTEUR_TYPE): Ennemie(SCORE_VALUE, ACTEUR_TYPE)
 {
 	
 }
@@ -65,13 +65,24 @@ bool MonstreArgentavis::init(const String texturePath)
 
 void MonstreArgentavis::UpdateAnimation()
 {
+	if (timeRemainingForShooting == 0)
+	{
+		haveToAttack = true;
+		timeRemainingForShooting = TIME_FOR_RELOADING_SHOOT;
+	}
+	else
+	{
+		haveToAttack = false;
+	}
+	--timeRemainingForShooting;
+
 	if (previousState != state)
 	{
 		previousState = state;
 		nbFrameFromBeginAnimation = 0;
 	}
 	++nbFrameFromBeginAnimation;
-	int animationNumber = 0;
+	animationNumber = 0;
 
 
 	if (state == walking || state == falling)
@@ -92,9 +103,14 @@ void MonstreArgentavis::UpdateAnimation()
 			nbFrameFromBeginAnimation = 0;
 		}
 	}
-	else if (state == dead)
+	else if (state == dying)
 	{
-
+		animationNumber = floor(nbFrameFromBeginAnimation / 12);
+		setTextureRect(intRectsDead[animationNumber]);
+		if (nbFrameFromBeginAnimation >= 11)
+		{
+			state = dead;
+		}
 	}
 
 }
