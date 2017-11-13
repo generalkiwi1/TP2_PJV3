@@ -6,7 +6,7 @@ namespace platformer
 	class MonstreRaptor : public Ennemie
 	{
 	public:
-		MonstreRaptor(const int SCORE_VALUE);
+		MonstreRaptor(const int SCORE_VALUE, ActeurType ACTEUR_TYPE);
 		~MonstreRaptor();
 
 		bool init(const String texturePath);
@@ -30,11 +30,7 @@ namespace platformer
 		const int NBR_ANIMS_ATTAQUE = 4;  //Nombre de frames d'animation pour l'attaque dans la spriteSheet.
 		const int NBR_ANIMS_DEAD = 5;  //Nombre de frames d'animation pour la mort dans la spriteSheet.
 
-		ActeurType ACTEUR_TYPE = raptor;
-
 		Texture texture;
-
-		int nbFrameFromBeginAnimation = 0; //Compteur pour les animations.
 
 		IntRect* intRectsImmobile; //Tableau dynamique à deux dimensions pour des rectangles de découpage, pour les animations de "idle".  
 		IntRect* intRectsMarche; //Tableau dynamique à deux dimensions pour des rectangles de découpage, pour les animations de marche. 

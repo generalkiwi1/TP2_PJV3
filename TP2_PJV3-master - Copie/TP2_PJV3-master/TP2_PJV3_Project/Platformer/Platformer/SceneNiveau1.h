@@ -5,6 +5,9 @@
 #include "MonstreStego.h"
 #include "MonstreRaptor.h"
 #include "MonstreArgentavis.h"
+#include "SpawnerStatic.h"
+#include <string>
+#include "FabriqueStandardArgentavis.h"
 
 // Mika - 1640194
 
@@ -26,6 +29,10 @@ namespace platformer
 		void draw();
 
 	private:
+
+		void adjustView();
+		void checkIfIsDead();
+
 		// Constantes du monde
 		const int SCREEN_WIDTH = 800;
 		const int SCREEN_HEIGHT = 480;
@@ -53,24 +60,34 @@ namespace platformer
 		static const int ENNEMY_2_WIDTH = 75;
 		static const int ENNEMY_2_HEIGHT = 85;
 		static const int NB_ENNEMY_MAX = 20;
+		static const int NB_PROJECTILES_MAX = 20;
 		static const int NB_BOUFFE_MAX = 50;
 		static const int NB_MAX_EXIT = 1;
 		static const int WIN_SCORE_VALUE = 1000;
 		static const int FOOB_SCORE_VALUE = 25;
 		static const int TIME_MAX_TO_FINISH = 3600;
+		const float VITESSE_PROJECTILES = 5;
+		const string textureProjectilesPath = "Ressources\\Sprites\\Food\\food2.png";
 
 		int timer = 0;
 		bool haveWin = false;
 		int score = 0;
+		int noProjectile = 0;
+
+		Sprite* grilleCollectibles[NB_BOUFFE_MAX];
+		Sprite* exit;
+		Sprite projectile;
+
+		Texture textureProjectile;
+		Texture foodT[FOODS];	
+		Texture exitT;	
+		Texture plateformeT;
 
 		/// <summary>
 		/// Théoriquement la fenêtre pourrait être remplie de tuile de manière exacte (20 X 15 pour être précis, voir plus haut)
 		/// On a donc une grille de pointeurs null, et si un bloc doit être concétisé, alors il ne sera pas null.
 		/// </summary>
 		Sprite* grilleDeTuiles[NOMBRE_TUILES_X][NOMBRE_TUILES_Y];
-		Sprite* grilleCollectibles[NB_BOUFFE_MAX];
-		Sprite* exit;
-
 		/// <summary>
 		/// On a 7 tuiles rouges de base; alors on va toutes les utiliser, pour le moment.
 		/// </summary>
@@ -83,19 +100,16 @@ namespace platformer
 		Sprite background[BACKGROUNDS];
 		Vector2f backgroundPositions[5];
 		
-		Texture foodT[FOODS];
-		
-		Texture exitT;
-		
-		Texture plateformeT;
-		
+		vector<Projectile*> projectiles;
 		Joueur * joueur;
 		Ennemie * ennemies[NB_ENNEMY_MAX];
+		SpawnerStatic * spawnerStaticStego;
+		SpawnerStatic * spawnerStaticRaptor;
+		FabriqueStandardArgentavis * fabriqueStandardArgentavis;
 		int interfaceCommande;
-		View view;
-		
-		void adjustView();
-		
-		
+
+		Font font;
+		Text text;
+		View view;		
 	};
 }

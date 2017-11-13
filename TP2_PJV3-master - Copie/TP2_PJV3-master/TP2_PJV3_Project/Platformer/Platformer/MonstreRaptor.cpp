@@ -3,7 +3,7 @@
 
 using namespace platformer;
 
-MonstreRaptor::MonstreRaptor(const int SCORE_VALUE) : Ennemie(SCORE_VALUE, ACTEUR_TYPE)
+MonstreRaptor::MonstreRaptor(const int SCORE_VALUE, ActeurType ACTEUR_TYPE) : Ennemie(SCORE_VALUE, ACTEUR_TYPE)
 {
 
 }
@@ -80,7 +80,7 @@ void MonstreRaptor::UpdateAnimation()
 		nbFrameFromBeginAnimation = 0;
 	}
 	++nbFrameFromBeginAnimation;
-	int animationNumber = 0;
+	animationNumber = 0;
 
 	if (state == idle)
 	{
@@ -109,9 +109,14 @@ void MonstreRaptor::UpdateAnimation()
 			nbFrameFromBeginAnimation = 0;
 		}
 	}
-	else if (state == dead)
+	else if (state == dying)
 	{
-
+		animationNumber = floor(nbFrameFromBeginAnimation / 6);
+		setTextureRect(intRectsDead[animationNumber]);
+		if (nbFrameFromBeginAnimation >= 29)
+		{
+			state = dead;
+		}
 	}
 
 }
@@ -123,5 +128,5 @@ void MonstreRaptor::FlipSpriteToLeft()
 
 void MonstreRaptor::FlipSpriteToRigth()
 {
-	Sprite::setScale(-1.f, 1.f);
+	Sprite::setScale(1.f, 1.f);
 }

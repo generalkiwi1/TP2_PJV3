@@ -6,7 +6,7 @@ namespace platformer
 	class MonstreStego : public Ennemie
 	{
 	public:
-		MonstreStego(const int SCORE_VALUE);
+		MonstreStego(const int SCORE_VALUE, ActeurType ACTEUR_TYPE);
 		~MonstreStego();
 
 		bool init(const String texturePath);
@@ -26,11 +26,8 @@ namespace platformer
 		const int NBR_ANIMS_MARCHE = 12;  //Nombre de frames d'animation pour la marche dans la spriteSheet.
 		const int NBR_ANIMS_DEAD = 1;  //Nombre de frames d'animation pour la mort dans la spriteSheet.
 		
-		ActeurType ACTEUR_TYPE = stego;
 
 		Texture texture;
-
-		int nbFrameFromBeginAnimation = 0; //Compteur pour les animations.
 
 		IntRect* intRectsMarche; //Tableau dynamique à deux dimensions pour des rectangles de découpage, pour les animations de marche. 
 		IntRect* intRectsDead; //Tableau dynamique à deux dimensions pour des rectangles de découpage, pour les animations de mort. 
