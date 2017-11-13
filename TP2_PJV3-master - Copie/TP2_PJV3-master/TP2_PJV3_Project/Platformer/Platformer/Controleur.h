@@ -3,7 +3,6 @@
 #include "Modele.h"
 
 using std::string;
-using namespace platformer;
 
 namespace MVC
 {
@@ -14,18 +13,27 @@ namespace MVC
 		static void release();
 
 		int changeCurrentScene(const int nextScene);
+
 		bool getErrorCreate();
 		bool getErrorLogin();
+		int getErrorModification();
+		int getLastEffacerState();
+
 		void confirmCreateData(const string pseudo, const string password, const string nom, const string prenom, const string courriel);
 		bool confirmLoginData(const string pseudo, const string password);
+		bool confirmModificationData(const string pseudo, const string password);
+		bool confirmEraseData(const string pseudo, const string password);
+		void effacerCompte();
+		void testDonneesAModifier(const string pseudo, const string password, const string nom, const string prenom, const string courriel);
 
 	private:
 		Controleur();
 		static Controleur *instance;
-		Scene::scenes lastScene = Scene::MENU;
-		Scene::scenes currentScene = Scene::MENU;
+		int currentScene = 0;
 		bool errorCreate = false;
 		bool errorLogin = false;
+		int stateModification = 0;
+		int stateEffacer = 0;
 
 		Controleur(const Controleur&);
 		void operator=(const Controleur&);

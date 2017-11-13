@@ -2,6 +2,8 @@
 
 using namespace platformer;
 
+// Mika - 1640194
+
 SceneMenu::SceneMenu()
 {
 	
@@ -22,6 +24,8 @@ Scene::scenes SceneMenu::run()
 		update();
 		draw();
 	}
+
+	delete textboxActif;
 
 	return transitionVersScene;
 }
@@ -100,6 +104,8 @@ void SceneMenu::update()
 {
 }
 
+
+// Dessin des figures
 void SceneMenu::draw()
 {
 	mainWin->clear();

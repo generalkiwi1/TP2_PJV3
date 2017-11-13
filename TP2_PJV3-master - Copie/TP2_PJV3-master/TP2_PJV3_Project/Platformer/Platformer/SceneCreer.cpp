@@ -2,6 +2,7 @@
 
 using namespace platformer;
 
+// Mika - 1640194
 
 SceneCreer::SceneCreer()
 {
@@ -91,6 +92,7 @@ void SceneCreer::getInputs()
 				if (buttons[i].touche(Mouse::getPosition(*mainWin)))
 				{
 					textboxActif = &buttons[i];
+					buttons[i].insererTexte(""); // Efface le contenu pour le joueur
 					buttons[i].selectionner();  //on l'affiche comme étant sélectionné
 
 					 // + 1 pour dire qu'il y a une incrémentation de plus, car si c'est égal à 0, on ne change pas de fenêtre.
@@ -144,6 +146,7 @@ void SceneCreer::update()
 {
 }
 
+// Dessin des figures
 void SceneCreer::draw()
 {
 	mainWin->clear();

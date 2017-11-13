@@ -1,10 +1,9 @@
 #include "Modele.h"
-#include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
 #include <vector>
 
+using namespace std;
 using namespace MVC;
 
 Modele::Modele()
@@ -12,10 +11,10 @@ Modele::Modele()
 	
 }
 
-Scene::scenes Modele::switchScene(const int nextScene)
+// Changement de scene
+int Modele::switchScene(const int nextScene)
 {
-
-	int nextSceneSwitch = nextScene;
+	const int nextSceneSwitch = nextScene;
 	switch (nextSceneSwitch)
 		// 0 = MENU
 		// 1 = LOGIN
@@ -28,38 +27,37 @@ Scene::scenes Modele::switchScene(const int nextScene)
 		// 8 = SORTIE
 	{
 	case 0:
-		currentScene = Scene::MENU;
+		currentScene = 0; // La scene courante
 		break;
 	case 1:
-		currentScene = Scene::LOGIN;
+		currentScene = 1;
 		break;
 	case 2:
-		currentScene = Scene::MEILLEURS_SCORES;
+		currentScene = 2;
 		break;
 	case 3:
-		currentScene = Scene::GESTION;
+		currentScene = 3;
 		break;
 	case 4:
-		currentScene = Scene::CREER;
+		currentScene = 4;
 		break;
 	case 5:
-		currentScene = Scene::MODIFIER;
+		currentScene = 5;
 		break;
 	case 6:
-		currentScene = Scene::EFFACER;
+		currentScene = 6;
 		break;
 	case 7:
-		currentScene = Scene::NIVEAU1;
+		currentScene = 7;
 		break;
 	case 8:
-		currentScene = Scene::SORTIE;
-		break;
-	default:
+		currentScene = 8;
 		break;
 	}
 	return currentScene;
 }
 
+/// Ajoute un compte valide à la fin du fichier
 void Modele::creationCompte(const string pseudo, const string password, const string nom, const string prenom, const string courriel)
 {
 	{
@@ -69,10 +67,35 @@ void Modele::creationCompte(const string pseudo, const string password, const st
 	}
 }
 
+/// Ajoute un compte valide à la fin du fichier
+void Modele::modificationCompte(const string pseudo, const string password, const string nom, const string prenom, const string courriel)
+{
+	{
+		ofstream lectureDeFichierCompte("compte.txt", ios::app); // fichier de comptes
+		string compte = pseudo + " " + password + " " + nom + " " + prenom + " " + courriel; // Création de l'entrée
+		lectureDeFichierCompte << compte << endl; // Implémentation dans le fichier
+	}
+}
+
+///Sauvegarde du joueur courant
 void Modele::sauvegardeJoueur(const string pseudo)
 {
 	joueurCourant = pseudo;
 }
+
+/// Retourne le joueur courant
+string Modele::getJoueur()
+{
+	return joueurCourant;
+}
+
+/// Retourne la scene courante
+int Modele::getScene()
+{
+	return currentScene;
+}
+
+
 
 
 

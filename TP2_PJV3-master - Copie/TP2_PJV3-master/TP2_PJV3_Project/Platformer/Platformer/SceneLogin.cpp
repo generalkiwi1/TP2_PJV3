@@ -2,6 +2,7 @@
 
 using namespace platformer;
 
+// Mika - 1640194
 
 SceneLogin::SceneLogin()
 {
@@ -28,7 +29,7 @@ Scene::scenes SceneLogin::run()
 
 bool SceneLogin::init(RenderWindow * const window)
 {
-	if (!ecranMenuT.loadFromFile("Ressources\\Sprites\\Title.png"))
+	if (!ecranMenuT.loadFromFile("Ressources\\Sprites\\Title.png")) 
 	{
 		return false;
 	}
@@ -38,7 +39,7 @@ bool SceneLogin::init(RenderWindow * const window)
 		return false;
 	}
 
-	ecranMenu.setTexture(ecranMenuT);
+	ecranMenu.setTexture(ecranMenuT); 
 
 	//Les positions sont arbitraires, obtenus par essai et erreur.
 	//par rapport au fond d'écran
@@ -85,6 +86,7 @@ void SceneLogin::getInputs()
 				if (buttons[i].touche(Mouse::getPosition(*mainWin)))
 				{
 					textboxActif = &buttons[i];
+					buttons[i].insererTexte(""); // Efface le contenu pour le joueur
 					buttons[i].selectionner();  //on l'affiche comme étant sélectionné
 					if(i == 2)
 					{
@@ -139,6 +141,7 @@ void SceneLogin::update()
 {
 }
 
+// Dessin des figures
 void SceneLogin::draw()
 {
 	mainWin->clear();

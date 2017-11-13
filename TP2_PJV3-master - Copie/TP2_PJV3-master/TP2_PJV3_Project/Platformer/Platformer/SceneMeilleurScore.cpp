@@ -2,6 +2,8 @@
 
 using namespace platformer;
 
+// Mika - 1640194
+// Non finie
 
 SceneMeilleurScore::SceneMeilleurScore()
 {
@@ -102,6 +104,7 @@ void SceneMeilleurScore::update()
 {
 }
 
+// Dessin des figures
 void SceneMeilleurScore::draw()
 {
 	mainWin->clear();

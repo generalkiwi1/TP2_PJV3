@@ -2,6 +2,8 @@
 
 using namespace platformer;
 
+// Mika - 1640194
+
 
 SceneGestion::SceneGestion()
 {
@@ -103,6 +105,7 @@ void SceneGestion::update()
 {
 }
 
+// Dessin des figures
 void SceneGestion::draw()
 {
 	mainWin->clear();

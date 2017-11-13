@@ -1,10 +1,10 @@
 #include "SceneNiveau1.h"
-
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <algorithm>
+
+// Mika - 1640194
 
 using namespace std;
 using namespace platformer;

@@ -3,10 +3,11 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <algorithm>
 #include "Controleur.h"
 
+// Mika - 1640194
 
+using namespace std;
 using namespace MVC;
 
 Controleur *Controleur::instance = nullptr;
@@ -31,138 +32,132 @@ void Controleur::release()
 
 int Controleur::changeCurrentScene(const int nextScene)
 {
-	if (currentScene == Scene::MENU && nextScene == 1 ) // Décalage de 1 à partir du menu - Login
+	if (currentScene == 0 && nextScene == 1 ) // Décalage de 1 à partir du menu - Login
 	{
 		int sceneIncrementation = (int)currentScene + nextScene;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::MENU && nextScene == 2) // Décalage de 2 à partir du menu - Scores
+	else if (currentScene == 0 && nextScene == 2) // Décalage de 2 à partir du menu - Scores
 	{
 		int sceneIncrementation = (int)currentScene + nextScene;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::MENU && nextScene == 3) // Décalage de 3 à partir du menu - Gestion
+	else if (currentScene == 0 && nextScene == 3) // Décalage de 3 à partir du menu - Gestion
 	{
 		int sceneIncrementation = (int)currentScene + nextScene;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::GESTION && nextScene == 1) // Décalage de 1 à partir de la gestion - Créer
+	else if (currentScene == 3 && nextScene == 1) // Décalage de 1 à partir de la gestion - Créer
 	{
 		int sceneIncrementation = (int)currentScene + nextScene;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::GESTION && nextScene == 2) // Décalage de 2 à partir de la gestion - Modifier
+	else if (currentScene == 3 && nextScene == 2) // Décalage de 2 à partir de la gestion - Modifier
 	{
 		int sceneIncrementation = (int)currentScene + nextScene;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::GESTION && nextScene == 3) // Décalage de 3 à partir de la gestion - Effacer
+	else if (currentScene == 3 && nextScene == 3) // Décalage de 3 à partir de la gestion - Effacer
 	{
 		int sceneIncrementation = (int)currentScene + nextScene;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::GESTION && nextScene == 4) // Retour au Menu(0)
+	else if (currentScene == 3 && nextScene == 4) // Retour au Menu(0)
 	{
 		int sceneIncrementation = 0;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::LOGIN && nextScene == 2) // De mauvais paramêtres ont été entrés
+	else if (currentScene ==1 && nextScene == 2) // De mauvais paramêtres ont été entrés
 	{
 		// Appel fonction valider nom et mot de passe
-		lastScene = currentScene;
-		currentScene = Scene::LOGIN;
+		currentScene = 1;
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::LOGIN && nextScene == 3) // De bon paramêtres ont été entrés
+	else if (currentScene ==1 && nextScene == 3) // De bon paramêtres ont été entrés
 	{
 		// Appel fonction valider nom et mot de passe
-		lastScene = currentScene;
-		currentScene = Scene::NIVEAU1;
+		currentScene = 7;
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::LOGIN && nextScene == 4) // Retour au Menu(0)
+	else if (currentScene == 1 && nextScene == 4) // Retour au Menu(0)
 	{
 		int sceneIncrementation = 0;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::MEILLEURS_SCORES && nextScene == 3) // Validation des paramètres entrés
+	else if (currentScene == 2 && nextScene == 3) // Validation des paramètres entrés
 	{
 		// Appel fonction valider des paramêtres de recherche
-		lastScene = currentScene;
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::MEILLEURS_SCORES && nextScene == 4) // Retour au Menu(0)
+	else if (currentScene == 2 && nextScene == 4) // Retour au Menu(0)
 	{
 		int sceneIncrementation = 0;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::CREER && nextScene == 6) // Validation des paramètres entrés
+	else if (currentScene == 4 && nextScene == 6) // Validation des paramètres entrés
 	{
-		lastScene = currentScene;
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::CREER && nextScene == 7) // Retour à la Gestion(3)
+	else if (currentScene == 4 && nextScene == 7) // Retour à la Gestion(3)
 	{
 		int sceneIncrementation = 3;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::MODIFIER && nextScene == 6) // Validation des paramètres entrés
+	else if (currentScene == 5 && nextScene == 6) // Validation des paramètres entrés
 	{
 		// Appel fonction valider des paramêtres de recherche
-		lastScene = currentScene;
+		if (stateModification == 2)
+		{
+			int sceneIncrementation = 0; // Retour au menu
+			currentScene = modele.switchScene(sceneIncrementation);
+			stateModification = 0; // Remise à zéro pour de nouvelle modification
+			modele.sauvegardeJoueur(""); // On enlève le joueur courrant utiliser pour garder l'utilisateur à sauvegarder
+		}
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::MODIFIER && nextScene == 7) // Retour à la Gestion(3)
+	else if (currentScene == 5 && nextScene == 7) // Retour à la Gestion(3)
 	{
 		int sceneIncrementation = 3;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::EFFACER && nextScene == 3) // Validation des paramètres entrés
+	else if (currentScene == 6 && nextScene == 3) // Validation des paramètres entrés
 	{
 		// Appel fonction valider des paramêtres de recherche
-		lastScene = currentScene;
+		if (stateEffacer == 2)
+		{
+			int sceneIncrementation = 0; // Retour au menu
+			currentScene = modele.switchScene(sceneIncrementation);
+			stateEffacer = 0; // Remise à zéro pour de nouvelle modification
+			modele.sauvegardeJoueur(""); // On enlève le joueur courrant utiliser pour garder l'utilisateur à sauvegarder
+		}
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::EFFACER && nextScene == 4) // Retour à la Gestion(3)
+	else if (currentScene == 6 && nextScene == 4) // Retour à la Gestion(3)
 	{
 		int sceneIncrementation = 3;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
-	else if (currentScene == Scene::NIVEAU1 && nextScene == 0) // Retour au Menu(0)
+	else if (currentScene == 7 && nextScene == 0) // Retour au Menu(0)
 	{
 		int sceneIncrementation = 0;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
 	else if (nextScene == 8) // Sortie du jeu
 	{
 		int sceneIncrementation = 8;
-		lastScene = currentScene;
 		currentScene = modele.switchScene(sceneIncrementation);
 		return (int)currentScene;
 	}
@@ -172,11 +167,13 @@ int Controleur::changeCurrentScene(const int nextScene)
 	}
 }
 
+// Erreur de création (état)
 bool Controleur::getErrorCreate()
 {
 	return errorCreate;
 }
 
+// Validation du compte à créer
 void Controleur::confirmCreateData(const string pseudo, const string password, const string nom, const string prenom, const string courriel)
 {
 	errorCreate = false;
@@ -186,6 +183,7 @@ void Controleur::confirmCreateData(const string pseudo, const string password, c
 		prenom.length() >= 2 && prenom.length() <= 25
 		)
 	{
+		// Les fonctions ci-dessous retourne faux s'il ni a pas d'erreur d'entées pour le compte
 		errorCreate = pseudoExiste(pseudo); // Vérification pseudo
 		if(!errorCreate)
 			errorCreate = correctPassword(password); // Vérification mot de passe
@@ -202,9 +200,11 @@ void Controleur::confirmCreateData(const string pseudo, const string password, c
 	// Si tout marche on l'entre dans la liste de compte
 	if (!errorCreate)
 		modele.creationCompte(pseudo, password, nom, prenom, courriel);	
+	else
+		errorCreate = true;
 }
 
-
+// On vérifi si le joueur existe
 bool Controleur::pseudoExiste(const string pseudo)
 {
 	bool pseudoExist = false;
@@ -220,13 +220,12 @@ bool Controleur::pseudoExiste(const string pseudo)
 			l >> fichierPseudo ;
 			if (fichierPseudo == pseudo)
 				pseudoExist = true;
-
-			cout << fichierPseudo << " " << pseudoExist <<endl;
 		}
 	}
 	return pseudoExist;
 }
 
+// On vérifie le mot de passe
 bool Controleur::correctPassword(const string password)
 {
 	bool incorrectPassword = true;
@@ -253,6 +252,7 @@ bool Controleur::correctPassword(const string password)
 	return incorrectPassword;
 }
 
+// On vérifie le nom
 bool Controleur::correctNom(const string nom)
 {
 	bool wrongtName = false;
@@ -267,10 +267,11 @@ bool Controleur::correctNom(const string nom)
 			wrongtName = true;
 			break;
 		}
-		return wrongtName;
 	}
+	return wrongtName;
 }
 
+// On vérifie le prenom
 bool Controleur::correctPrenom(const string prenom)
 {
 	bool wrongtFirstName = false;
@@ -288,6 +289,8 @@ bool Controleur::correctPrenom(const string prenom)
 	}
 	return wrongtFirstName;
 }
+
+// On vérifie l'email
 bool Controleur::correctEmail(const string courriel)
 {
 	bool invalidCourriel = false;
@@ -318,7 +321,7 @@ bool Controleur::correctEmail(const string courriel)
 		else
 		{
 			string preffix = courriel.substr(0, preffixIndex); // Le préfixe doit être plus grand que 1
-			string suffix = courriel.substr(preffixIndex+1, domainIndex); // Le suffixe doit être plus grand que 1 (Le plus 1 sert a éliminer le @)
+			string suffix = courriel.substr(preffixIndex+1, domainIndex-preffixIndex-1); // Le suffixe doit être plus grand que 1 (Le plus 1 sert a éliminer le @)
 			string domain = courriel.substr(domainIndex+1); // (Le plus 1 sert a éliminer le .)
 			if (preffix.length() <= 0 || suffix.length() <= 0 || domain.length() < 2 || domain.length() > 3)
 				invalidCourriel = true;
@@ -330,6 +333,7 @@ bool Controleur::correctEmail(const string courriel)
 	return invalidCourriel;
 }
 
+// Vérification du login
 bool Controleur::confirmLoginData(const string pseudo, const string password)
 {
 	errorLogin = false;
@@ -354,14 +358,181 @@ bool Controleur::confirmLoginData(const string pseudo, const string password)
 	}
 	if (!validAccount)
 		errorLogin = true;
+	else
+		errorLogin = false;
+	return validAccount; // False s'il n'y a pas de problème
+}
+
+// Vérification des modifications (du compte voulant être modifier)
+bool Controleur::confirmModificationData(const string pseudo, const string password)
+{
+	stateModification = 0; // État de base
+	bool validAccount = false;
+	{
+		ifstream lectureDeFichierCompte("compte.txt"); // fichier de comptes
+		string line;
+
+		while (getline(lectureDeFichierCompte, line))
+		{
+			stringstream l(line);
+			string fichierPseudo = "", fichierPassword = "";
+
+			l >> fichierPseudo >> fichierPassword;
+			if (fichierPseudo == pseudo && fichierPassword == password)
+			{
+				validAccount = true;
+				break;
+			}
+		}
+	}
+	if (validAccount) // Si c'est un compte valide
+	{
+		stateModification = 1;
+		modele.sauvegardeJoueur(pseudo);
+	}
+
+	return validAccount; // True si tout est bon
+}
+
+// Vérification des données à effacer
+bool Controleur::confirmEraseData(const string pseudo, const string password)
+{
+	stateEffacer = 0;
+	bool validAccount = false;
+	{
+		ifstream lectureDeFichierCompte("compte.txt"); // fichier de comptes
+		string line;
+
+		while (getline(lectureDeFichierCompte, line))
+		{
+			stringstream l(line);
+			string fichierPseudo = "", fichierPassword = "";
+
+			l >> fichierPseudo >> fichierPassword;
+			if (fichierPseudo == pseudo && fichierPassword == password)
+			{
+				validAccount = true;
+				break;
+			}
+		}
+	}
+	if (validAccount) // Si tout est bon on change l'état à 1 pour valide
+	{
+		stateEffacer = 1;
+		modele.sauvegardeJoueur(pseudo);
+	}
 
 	return validAccount;
 }
 
+/// Test des données avant de les écrire 
+void Controleur::testDonneesAModifier(const string pseudo, const string password, const string nom, const string prenom, const string courriel)
+{
+	bool validData = false;
+	if (pseudo == modele.getJoueur())
+	{
+		if (pseudo.length() >= 3 && pseudo.length() <= 25 &&
+			password.length() >= 5 && password.length() <= 15 &&
+			nom.length() >= 2 && nom.length() <= 25 &&
+			prenom.length() >= 2 && prenom.length() <= 25
+			)
+		{
+			validData = correctPassword(password); // Vérification mot de passe
+			if (!validData)
+				validData = correctNom(nom); // Vérification nom
+			if (!validData)
+				validData = correctPrenom(prenom); // Vérification prenom
+			if (!validData)
+				validData = correctEmail(courriel); // Vérification email
+		}
+		else
+			validData = true;
+		// Si tout marche on l'entre dans la liste de compte
+		if (!validData)
+		{
+			{ // Delete le compte et on le remplace
+				ifstream lectureDeFichierCompte("compte.txt");
+				ofstream output("temp.txt");
+				
+				string line;
+
+				while (getline(lectureDeFichierCompte, line)) // On efface le compte
+				{
+					stringstream l(line);
+					string fichierPseudo = "", fichierMotDePasse = "", fichierNom = "", fichiePrenom = "", fichieCouriel = "";
+
+					l >> fichierPseudo >> fichierMotDePasse >> fichierNom >> fichiePrenom >> fichieCouriel;
+
+					string currentAccount = fichierPseudo + " " + fichierMotDePasse + " " + fichierNom + " " + fichiePrenom + " " + fichieCouriel;
+
+					if (pseudo == fichierPseudo)
+					{
+					} // on ne copie pas la ligne
+					else // on copie la ligne
+						output << currentAccount << endl;
+				}
+			}
+			std::remove("compte.txt");
+			std::rename("temp.txt", "compte.txt");
+			stateModification = 2;
+			modele.modificationCompte(pseudo, password, nom, prenom, courriel);
+		}
+	}
+}
+
+// On efface le compte s'il est valide
+void Controleur::effacerCompte()
+{
+	{ // Delete le compte et on le remplace
+		ifstream lectureDeFichierCompte("compte.txt");
+		ofstream output("temp.txt");
+
+		string line;
+
+		while (getline(lectureDeFichierCompte, line)) // On efface le compte
+		{
+			stringstream l(line);
+			string fichierPseudo = "", fichierMotDePasse = "", fichierNom = "", fichiePrenom = "", fichieCouriel = "";
+
+			l >> fichierPseudo >> fichierMotDePasse >> fichierNom >> fichiePrenom >> fichieCouriel;
+
+			string currentAccount = fichierPseudo + " " + fichierMotDePasse + " " + fichierNom + " " + fichiePrenom + " " + fichieCouriel;
+
+			if (modele.getJoueur() == fichierPseudo)
+			{
+			} // on ne copie pas la ligne
+			else // on copie la ligne
+				output << currentAccount << endl;
+		}
+	}
+	std::remove("compte.txt");
+	std::rename("temp.txt", "compte.txt");
+	stateModification = 2;
+	modele.sauvegardeJoueur("");
+}
+
+// retourne l'état de la scene login
 bool Controleur::getErrorLogin()
 {
 	return errorLogin;
 }
+
+// retourne l'état de la scene modifier
+int Controleur::getErrorModification()
+{
+	return stateModification;
+}
+
+// retourne l'état de la scene effacer
+int Controleur::getLastEffacerState()
+{
+	return stateEffacer;
+}
+
+
+
+
+
 
 
 
